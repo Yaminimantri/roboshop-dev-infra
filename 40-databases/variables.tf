@@ -22,3 +22,11 @@ variable "sg_names" {
         "backend_alb"
     ]
 }
+
+variable "zone_id" {
+    default = "Z06672831LSN6WUF978LV"
+}
+
+variable "domain_name" {
+    default = "yaminiaws.fun"
+}

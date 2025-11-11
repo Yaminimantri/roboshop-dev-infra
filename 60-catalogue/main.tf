@@ -124,7 +124,7 @@ resource "aws_launch_template" "catalogue" {
 
 resource "aws_autoscaling_group" "catalogue" {
   name                      = "${local.common_name_suffix}-catalogue"
-  max_size                  = 10
+  max_size                  = 4
   min_size                  = 1
   health_check_grace_period = 100
   health_check_type         = "ELB"

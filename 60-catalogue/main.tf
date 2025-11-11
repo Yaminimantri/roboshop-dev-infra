@@ -88,6 +88,10 @@ resource "aws_launch_template" "catalogue" {
 
   vpc_security_group_ids = [local.catalogue_sg_id]
 
+  # when we run terraform apply again, a new version will be created with new AMI ID
+  #update_default_version = true
+
+
   # tags attached to the instance
   tag_specifications {
     resource_type = "instance"
@@ -184,5 +188,16 @@ resource "aws_lb_listener_rule" "catalogue" {
     host_header {
       values = ["catalogue.backend-alb-${var.environment}.${var.domain_name}"]
     }
+  }
+}
+
+resource "terraform_data" "catalogue_local" {
+  triggers_replace = [
+    aws_instance.catalogue.id
+  ]
+  
+  depends_on = [aws_autoscaling_policy.catalogue]
+  provisioner "local-exec" {
+    command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
   }
 }

@@ -112,14 +112,14 @@ resource "aws_security_group_rule" "catalogue_backend_alb" {
 }
 
 # This is the mistake we did, cart can't access catalogue directly, it should be through backend ALB
-resource "aws_security_group_rule" "catalogue_cart" {
+/* resource "aws_security_group_rule" "catalogue_cart" {
   type              = "ingress"
   security_group_id = local.catalogue_sg_id
   source_security_group_id = local.cart_sg_id
   from_port         = 8080
   protocol          = "tcp"
   to_port           = 8080
-} 
+} */
 
 ##### User SG Rules #####
 resource "aws_security_group_rule" "user_bastion" {
@@ -197,14 +197,14 @@ resource "aws_security_group_rule" "payment_backend_alb" {
   to_port           = 8080
 }
 
-resource "aws_security_group_rule" "payment_shipping" {
-  type              = "ingress"
-  security_group_id = local.payment_sg_id
-  source_security_group_id = local.shipping_sg_id
-  from_port         = 8080
-  protocol          = "tcp"
-  to_port           = 8080
-}
+# resource "aws_security_group_rule" "payment_shipping" {
+#   type              = "ingress"
+#   security_group_id = local.payment_sg_id
+#   source_security_group_id = local.shipping_sg_id
+#   from_port         = 8080
+#   protocol          = "tcp"
+#   to_port           = 8080
+# }
 
 ##### Backend ALB SG Rules #####
 resource "aws_security_group_rule" "backend_alb_bastion" {
@@ -273,24 +273,24 @@ resource "aws_security_group_rule" "frontend_frontend_alb" {
 }
 
 ##### Frontend ALB SG RUles #####
-# resource "aws_security_group_rule" "frontend_alb_public" {
-#   type              = "ingress"
-#   security_group_id = local.frontend_alb_sg_id
-#   cidr_blocks = ["0.0.0.0/0"]
-#   from_port         = 443
-#   protocol          = "tcp"
-#   to_port           = 443
-# }
+resource "aws_security_group_rule" "frontend_alb_public" {
+  type              = "ingress"
+  security_group_id = local.frontend_alb_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 443
+  protocol          = "tcp"
+  to_port           = 443
+}
 
 ##### Bastion SG Rules #####
-# resource "aws_security_group_rule" "bastion_laptop" {
-#   type              = "ingress"
-#   security_group_id = local.bastion_sg_id
-#   cidr_blocks = ["0.0.0.0/0"]
-#   from_port         = 22
-#   protocol          = "tcp"
-#   to_port           = 22
-# }
+resource "aws_security_group_rule" "bastion_laptop" {
+  type              = "ingress"
+  security_group_id = local.bastion_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
 
 # resource "aws_security_group_rule" "open_vpn_public" {
 #   type              = "ingress"
